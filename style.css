@@ -1,0 +1,87 @@
+/* ナビバー */
+.navbar-brand {
+    font-family: 'Potta One', cursive;
+}
+
+
+/*  */
+.qbox {
+    width: 70%;
+    background-color: yellow;
+    padding: 20px;
+    margin: 30px auto 20px;
+}
+
+
+/* 質問文 */
+.question {
+    background-color: white;
+    padding: 10px 40px 40px; 
+    margin: 30px;
+    border-width: 3px;
+    border-color: black;
+    border-style: solid;
+}
+
+p {
+    font-size: 30px;
+    text-align: center;
+    font-family: 'Potta One', cursive;
+}
+
+
+/* はい　どちらともいえない　いいえ */
+.choices {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-light {
+    width: 200px;
+    height: 50px;
+    margin: 10px;
+}
+
+
+/* もどる　次へ */
+.option {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-custom {
+    background-color: #FF1493;
+  }
+
+
+/* フッター */
+.footerbox {
+    background-color: white;
+}
+
+
+
+@media screen and (max-width:768px) {
+    p {
+        font-size: 25px;
+    }
+
+    .question {
+        padding: 30px;
+        
+    }
+
+    .choices {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-light {
+        width: 160px;
+    }
+}
+
+
+
