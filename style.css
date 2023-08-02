@@ -51,6 +51,9 @@ p {
 
 .btn-custom {
     background-color: #FF1493;
+    width: 200px;
+    height: 50px;
+    margin: 10px;
   }
 
 
@@ -60,7 +63,7 @@ p {
 }
 
 
-
+/* レスポンシブ対応 */
 @media screen and (max-width:768px) {
     p {
         font-size: 25px;
@@ -82,6 +85,3 @@ p {
         width: 160px;
     }
 }
-
-
-
