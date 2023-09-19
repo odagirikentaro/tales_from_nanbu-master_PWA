@@ -135,6 +135,16 @@ div.footerbox {
 
 @media screen and (max-width:768px) {
 
+    div.qbox {
+        position: relative;
+        left: auto;
+        width: 70%;
+        background-image: url(images/bgimage.png);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 30px auto 20px;
+    }
+
     p {
         font-size: 25px;
     }
@@ -159,12 +169,9 @@ div.footerbox {
 
     div.charaimage img{
         position: absolute;
-        left: -29%;
+        left: -20%;
         bottom: 10%;
-        width: 155px;
+        width: 100px;
         height: auto;
     }
 }
-
-
-
