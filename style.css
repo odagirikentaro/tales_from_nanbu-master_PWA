@@ -1,7 +1,7 @@
 body {
-	background-image: url(images/washi_bg.png);
+    background-image: url(images/washi_bg.png);
     font-family: YuMincho, "Ms P 明朝", serif;
-	}
+}
 
 /* ナビバー */
 div.container-fluid {
@@ -37,7 +37,7 @@ div.qbox {
 div.question {
     background-color: white;
     border-radius: 10px;
-    padding: 10px 40px 40px; 
+    padding: 10px 40px 40px;
     margin: 10px;
     border-width: 3px;
     border-color: black;
@@ -54,6 +54,9 @@ p {
     text-align: center;
 }
 
+div.explanationbtn {
+    justify-content: right;
+}
 
 /* はい　どちらともいえない　いいえ */
 div.choices {
@@ -61,17 +64,17 @@ div.choices {
     justify-content: space-around;
 }
 
-button.btn-light {
+/*button.btn-light {
     width: 200px;
     height: 50px;
     margin: 10px;
     border-width: 3px;
     border-color: black;
     border-style: solid;
-}
+}*/
 
 
-div.charaimage img{
+div.charaimage img {
     position: absolute;
     left: -20%;
     width: 200px;
@@ -81,10 +84,28 @@ div.charaimage img{
     margin: 30px auto 20px;*/
 }
 
+div.imageSize img {
+    left: -20%;
+    width: 120px;
+    height: auto;
+}
+
+div.resultBox {
+    display: flex;
+}
 
 /* もどる　次へ */
+div.optionbox {
+    position: relative;
+    left: 50px;
+}
+
+div.startoption {
+    display: flex;
+    justify-content: space-around;
+}
+
 div.option {
-    font-family: "Comic Sans MS", cursive;
     display: flex;
     justify-content: space-around;
 }
@@ -100,23 +121,33 @@ button.btn-custom {
 }
 
 button.btn-custom:hover {
-	background-color: #f74b0c;
+    background-color: #8a8583;
 }
 
+button.btn-custom:active {
+    /*background-color: black;*/
+    opacity: 1;
+}
 
 /* フッター */
 div.footerbox {
     background-color: white;
 }
 
-@media screen and (max-width:960px){
-    
+div.fadeOut {
+    display: none;
 }
+
+div.fadeIn {
+    display: flex;
+}
+
+@media screen and (max-width:960px) {}
 
 
 /* レスポンシブ対応 */
 @media screen and (max-width:1100px) {
-    div.charaimage img{
+    div.charaimage img {
         position: absolute;
         left: -23%;
         width: 190px;
@@ -125,7 +156,7 @@ div.footerbox {
 }
 
 @media screen and (max-width:900px) {
-    div.charaimage img{
+    div.charaimage img {
         position: absolute;
         left: -27%;
         width: 170px;
@@ -141,8 +172,8 @@ div.footerbox {
         width: 70%;
         background-image: url(images/bgimage.png);
         border-radius: 10px;
-        padding: 20px;
-        margin: 30px auto 20px;
+        padding: 7px;
+        margin: 10px auto 10px;
     }
 
     p {
@@ -150,8 +181,8 @@ div.footerbox {
     }
 
     div.question {
-        padding: 10px 40px 40px;
-        
+        padding: 10px 30px 15px;
+
     }
 
     div.choices {
@@ -163,15 +194,61 @@ div.footerbox {
 
     button.btn-light {
         width: 80%;
-        height: 50px;
-        margin: 5px;
+        height: 43px;
+        margin: 3px;
     }
 
-    div.charaimage img{
+    div.charaimage img {
         position: absolute;
         left: -20%;
         bottom: 10%;
         width: 100px;
         height: auto;
     }
+
+    div.optionbox {
+        position: relative;
+        left: 0px;
+    }
+
+    button.btn-custom {
+        background-color: white;
+        width: 200px;
+        height: 43px;
+        margin: 10px;
+        border-width: 2px;
+        border-color: black;
+        border-style: solid;
+    }
 }
+
+
+
+.formbt input[type=radio]{
+    display: none;
+}  
+
+.formbt input[type=radio]+label{
+    width: 190px;
+    padding: 10px;
+    font-size: 20px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 20px;
+}  
+
+.formbt input[type=radio]:checked+label{
+    background-color: rgb(241, 243, 94);
+    border: 3px solid black;
+} 
+
+.formbt input[type=radio]+label span::before{
+    content: "○";
+} 
+
+.formbt input[type=radio]:checked+label span::before{
+    content: "●";
+    color: black;
+} 
+
