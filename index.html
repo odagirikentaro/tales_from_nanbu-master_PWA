@@ -9,51 +9,15 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
+
   <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">南部昔ッコ診断</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form class="d-flex mt-3" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
     </div>
   </nav>
   <!----- /header ----->
@@ -64,19 +28,45 @@
       <img src="images/character3.png" alt="キャラクター">
     </div>
     <div class="question">
-      <h1>問1</h1>
-      <p>世の中に悪い人はいないと思う</p>
+      <h1 id="qnumber">南部昔ッコ診断</h1>
+      <div class="resultBox">
+        <div id="file_area" class="imageSize">
+
+        </div>
+        <p id="qtext">10コの簡単な質問に答えて、八戸地方の有名な昔話
+          （昔ッコ）の登場人物との相性を診断してみましょう。</p>
+      </div>
+      <div class="explanationbtn fadeOut">
+        <button type="button" class="btn btn-custom" id="back">どんな話？</button>
+      </div>
+      <div class="taleTypebtn fadeOut">
+        <button type="button" class="btn btn-custom" id="taleType">もどる</button>
+      </div>
+
+
     </div>
-    <div class="choices">
-      <button type="button" class="btn btn-light">はい</button>
-      <button type="button" class="btn btn-light">どちらともいえない</button>
-      <button type="button" class="btn btn-light">いいえ</button>
+    <div class="choices fadeOut">
+      <form method="post" action="#" class="formbt" id="myForm">
+        <input type="radio" value="1" name="answer" class="btn1" id="yes" onchange="checkForm()"><label
+          for="yes"><span>はい</span></label>
+        <input type="radio" value="0" name="answer" class="btn1" id="neither" onchange="checkForm()"><label
+          for="neither"><span>どちらともいえない</span></label>
+        <input type="radio" value="-1" name="answer" class="btn1" id="no" onchange="checkForm()"><label
+          for="no"><span>いいえ</span></label>
+      </form>
     </div>
   </div>
 
-  <div class="option">
-    <button type="button" class="btn btn-custom">もどる</button>
-    <button type="button" class="btn btn-custom">次へ</button>
+  <div class="optionbox">
+    <div class="startoption">
+      <button type="button" class="btn btn-custom">はじめる</button>
+    </div>
+    <div class="option fadeOut">
+      <button type="button" class="btn btn-custom" id="back" onclick="Return()">もどる</button>
+      <div class="nextbox">
+        <button class="btn btn-custom" id="next" onclick="getSelectedValue()">つぎへ</button>
+      </div>
+    </div>
   </div>
   <!----- /main ----->
 
@@ -84,13 +74,10 @@
     <div class="footerbox">
       <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary"></a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary"></a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary"></a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary"></a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">お問い合わせ</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">プライバシーポリシー</a></li>
         </ul>
-        <p class="text-center text-body-secondary">八戸市博物館</p>
+        <p class="text-center text-body-secondary fs-1">八戸市博物館</p>
       </footer>
     </div>
   </footer>
@@ -98,6 +85,18 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"></script>
+  <script src="main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/PWA_design-onchange/sw.js').then(function (registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 
 
