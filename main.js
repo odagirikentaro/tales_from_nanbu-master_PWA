@@ -195,7 +195,7 @@ function Return() {
         file_area.removeChild(file_area.firstElementChild); //追加された画像を消す
         explanationbox.classList.remove("fadeIn");
         file_area.style.display = "block";
-
+        taleTypebtn.classList.remove("fadeIn");
     }
 
 }
