@@ -1,44 +1,46 @@
-let coefs = {};
+const coefs = coefReader();
+function coefReader() {
+    let coefs = {};
+    fetch('coefficients.csv')
+        .then(response => response.text()) //レスポンスデータを取得
+        .then(data => {
+            // 改行文字でCSVデータを分割
+            const lines = data.split('\n');      //splitで文字列を分割
+
+            // ヘッダー行を解析して列名を取得　キャラクター,問1,問2,問3
+            const headers = lines[0].split(',');
 
 
-fetch('coefficients.csv')
-    .then(response => response.text()) //レスポンスデータを取得
-    .then(data => {
-        // 改行文字でCSVデータを分割
-        const lines = data.split('\n');      //splitで文字列を分割
+            // 各行のデータを処理 1つ目のキャラクターから始める
+            for (let i = 1; i < lines.length; i++) {
+                let values = lines[i].split(',');
+                let character = values[0]; //キャラクター名
 
-        // ヘッダー行を解析して列名を取得　キャラクター,問1,問2,問3
-        const headers = lines[0].split(',');
+                // キャラクターごとのデータを初期化
+                coefs[character] = {};
 
+                // 列ごとのデータを代入　問1から問3まで
+                for (let j = 1; j < headers.length; j++) {
+                    let columnName = headers[j];
+                    let value = parseInt(values[j]); // 文字列から数値に変換　数値「0,3,1」など
 
-        // 各行のデータを処理 1つ目のキャラクターから始める
-        for (let i = 1; i < lines.length; i++) {
-            let values = lines[i].split(',');
-            let character = values[0]; //キャラクター名
-
-            // キャラクターごとのデータを初期化
-            coefs[character] = {};
-
-            // 列ごとのデータを代入　問1から問3まで
-            for (let j = 1; j < headers.length; j++) {
-                let columnName = headers[j];
-                let value = parseInt(values[j]); // 文字列から数値に変換　数値「0,3,1」など
-
-                coefs[character][columnName] = value;
+                    coefs[character][columnName] = value;
+                }
             }
-        }
+            // coefsオブジェクトにデータが格納される
+            //console.log(coefs);
+        })
+        .catch(error => {
+            console.error('データを取得できませんでした: ', error);
+        });
+    return coefs;
+}
 
 
-        // coefsオブジェクトにデータが格納される
-        console.log(coefs);
-    })
-    .catch(error => {
-        console.error('データを取得できませんでした: ', error);
-    });
 
 
 //csv読み込み
-let questions = queReader();
+const questions = queReader();
 function queReader() {
     let questions = [];
     fetch('questions.csv')
@@ -54,7 +56,7 @@ function queReader() {
                 // データをオブジェクトとして配列に追加
                 questions.push({ "number": number, "text": text });
             }
-            console.log(questions);
+            //console.log(questions);
         })
         .catch(error => {
             console.error('データを取得できませんでした: ', error);
@@ -63,7 +65,7 @@ function queReader() {
 }
 
 
-let tales = talesReader();
+const tales = talesReader();
 function talesReader() {
     let tales = [];
     fetch('tales.csv')
@@ -82,7 +84,7 @@ function talesReader() {
                 // データをオブジェクトとして配列に追加
                 tales.push({ "昔ッコ": nanbuTales, "キャラクター": character, "画像": image, "解説": explanation, "あらすじ": synopsis, "特徴": features });
             }
-            console.log(tales);
+            //console.log(tales);
         })
         .catch(error => {
             console.error('データを取得できませんでした: ', error);
@@ -90,6 +92,23 @@ function talesReader() {
     return tales;
 }
 
+function btnLoad() {
+    //const startbtn = document.querySelector(".startoption");
+    startbtn.classList.add("fadeIn");
+    console.log("スタートボタン表示");
+}
+
+//3つの処理が終わってからスタートボタン表示
+Promise.all([coefReader(), queReader(), talesReader()])
+    .then(() => {
+        console.log(coefs);
+        console.log(questions);
+        console.log(tales);
+        btnLoad();
+    })
+    .catch(error => {
+        console.error('処理でエラーが発生しました: ', error);
+    });
 
 
 const quiz = document.getElementById("qnumber");     //番号
@@ -104,20 +123,25 @@ const explanationbox = document.querySelector(".explanationbtn"); //解説ボタ
 const back = document.getElementById("back");
 const taleTypebtn = document.querySelector(".taleTypebtn");
 const taleType = document.getElementById("taleType");
+const optionbox = document.querySelector(".optionbox");
+const showbtn = document.querySelector(".showbtn");
+
 
 //タイトル画面
 function startGame() {
     startbtn.addEventListener("click", () => {
         choice.classList.add("fadeIn");
         option.classList.add("fadeIn");
-        startbtn.classList.add("fadeOut");
+        startbtn.classList.remove("fadeIn");
+        cnt++;
         Set(0);
+        console.log("カウントは" + cnt);
     });
 }
 
-//メイン動作
+//スタート動作
 startGame();
-let cnt = 1;
+let cnt = 0;
 let Answers = {};
 //let i = 0;
 //back.addEventListener('click', showExplanation());
@@ -130,9 +154,6 @@ function Set(cnt) {
 
 //もどる
 function Return() {
-
-
-
 
 
     //再読み込み
@@ -160,33 +181,13 @@ function Return() {
 
     let form = document.getElementById(choice2); //選択を再現
     form.checked = true;
-    //let option3 = form.elements.id[no];
-    /*
-    let ynn = getElementById(no).elements;
-    ynn.checked = true;
-    */
-
-    //let ansValue = Answers["問" + cnt + ""];
-    /*
-    const form = document.getElementById("myForm");
-    let option3 = form.elements.answer;
-
-    option3.checked = true;
-    const opanswer = document.getElementsByName('answer');
-    */
-    /*for(let i = 0; i < opanswer.length; i++){ 
-        if(ansValue === ){
-            option3[i].checked = true;
-            break;
-        }
-      }*/
 
 
     delete Answers["問" + cnt + ""];
     let serializedArray = JSON.stringify(Answers);
     localStorage.setItem("score", serializedArray);
     console.log(Answers);
-    console.log(cnt);
+    console.log("カウントは" + cnt);
 
     //結果画面から「もどる」を選択したとき
     if (cnt == 10) {
@@ -200,10 +201,10 @@ function Return() {
 
 }
 
-
-document.querySelector('input[type="submit"]').addEventListener('click', function (event) {
+//ラジオボタンクリックしたときの～～
+/*document.querySelector('input[type="submit"]').addEventListener('click', function (event) {
     event.preventDefault();
-});
+});*/
 
 
 function checkForm() {
@@ -266,22 +267,23 @@ function getSelectedValue() {
         if (cnt < questions.length) {
             Set(cnt);
             cnt++;
-            console.log(cnt);
+            console.log("カウントは" + cnt);
 
             //ラジオボタンを未選択状態にする
-            const radioGroup = document.getElementsByName('answer');
-            radioGroup.forEach(radioButton => {
-                radioButton.checked = false;
-            });
-
-            if (Answers["問" + cnt + ""] !== null) {
+            if (Answers["問" + cnt + ""] == null) {
+                const radioGroup = document.getElementsByName('answer');
+                radioGroup.forEach(radioButton => {
+                    radioButton.checked = false;
+                });
+            } else {
                 const val2choice = { "1": "yes", "0": "neither", "-1": "no" };
                 let choice2 = val2choice[Answers["問" + cnt + ""]]; //yesかnoかneither
                 console.log(choice2);
                 let form = document.getElementById(choice2); //選択を再現
                 form.checked = true;
             }
-        } else if (cnt == 11) {
+
+        } else if (cnt == questions.length + 1) {
 
             location.reload();
         } else {
@@ -332,12 +334,19 @@ function caluculate() {
 
     for (let character in totalResult) {
         if (totalResult[character] > maxValue) {
-            randomResult.push(character);
+            //randomResult.push(character);
             maxValue = totalResult[character]; //最大値更新
-        } else if (totalResult[character] === maxValue) {
+        }
+    }
+
+    console.log(maxValue);
+
+    for (let character in totalResult) {
+        if (totalResult[character] === maxValue) {
             randomResult.push(character);
         }
     }
+
 
     console.log(randomResult);
     let maxCharacter = randomResult[Math.floor(Math.random() * randomResult.length)];
@@ -349,30 +358,7 @@ function caluculate() {
 }
 
 
-//昔話を表示
-/*
-function showExplanation(e) {
-    const characterName = this.name;
-    let nanbuTales = "";
-    let synopsis = "";
-    let features = "";
-    for (const character of tales) {
-        if (character["キャラクター"] === characterName) {
-            nanbuTales = character["昔ッコ"];
-            synopsis = character["あらすじ"];
-            features = character["特徴"];
-            break;
-        }
-    }
 
-    console.log(nanbuTales);
-    quiz.innerHTML = nanbuTales;
-    quiztext.innerHTML = synopsis;
-    //file_area.style.display ="none";
-
-    explanationbox.classList.remove("fadeIn");
-}
-*/
 
 //結果表示
 function resultSet(maxCharacter) {
@@ -426,8 +412,35 @@ function resultSet(maxCharacter) {
         quiztext.innerHTML = explanation;
         explanationbox.classList.add("fadeIn");
         taleTypebtn.classList.remove("fadeIn");
-        
+
 
     }, false);
 }
 
+
+
+
+
+
+function showInquiry() {
+    quiz.innerHTML = "お問い合わせ";
+    quiztext.innerHTML = "0120";
+    optionbox.classList.add("fadeOut"); //はじめる、もどる、次へ
+    choice.classList.remove("fadeIn"); //はい～～
+    showbtn.classList.add("fadeIn");
+    showbtn.addEventListener("click", () => {
+        quiz.innerHTML = "南部昔ッコ診断";
+        quiztext.innerHTML = "10コの簡単な質問に答えて、八戸地方の有名な昔話（昔ッコ）の登場人物との相性を診断してみましょう。";
+        optionbox.classList.remove("fadeOut"); //はじめる、もどる、次へ
+        showbtn.classList.remove("fadeIn");
+        if (cnt >= 1) {
+            quiz.innerHTML = questions[cnt - 1].number;
+            quiztext.innerHTML = questions[cnt - 1].text;
+            choice.classList.add("fadeIn"); //はい～～
+        }
+    });
+}
+
+function showPP() {
+    console.log("プライバシーポリシー");
+}
