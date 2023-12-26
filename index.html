@@ -14,12 +14,29 @@
 
 <body>
 
+  
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">南部昔ッコ診断</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="javascript:showInquiry();">お問い合わせ</a>
+          <a class="nav-link" href="javascript:showPP();">プライバシーポリシー</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 
+  <!--
   <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">南部昔ッコ診断</a>
     </div>
   </nav>
+  -->
   <!----- /header ----->
 
   <!----- main ----->
@@ -42,6 +59,9 @@
       <div class="taleTypebtn fadeOut">
         <button type="button" class="btn btn-custom" id="taleType">もどる</button>
       </div>
+      <div class="showbtn fadeOut">
+        <button type="button" class="btn btn-custom" id="showbtn">もどる</button>
+      </div>
 
 
     </div>
@@ -58,7 +78,7 @@
   </div>
 
   <div class="optionbox">
-    <div class="startoption">
+    <div class="startoption fadeOut">
       <button type="button" class="btn btn-custom">はじめる</button>
     </div>
     <div class="option fadeOut">
@@ -73,11 +93,14 @@
   <footer>
     <div class="footerbox">
       <footer class="py-3 my-4">
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3"><!--
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">お問い合わせ</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">プライバシーポリシー</a></li>
+          -->
         </ul>
-        <p class="text-center text-body-secondary fs-1">八戸市博物館</p>
+        
+        <p class="text-center text-body-secondary fs-5">八戸市博物館</p>
       </footer>
     </div>
   </footer>
