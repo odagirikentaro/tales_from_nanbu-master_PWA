@@ -1,13 +1,29 @@
-let CACHE_NAME = 'PWA_design-onchange';
-let urlsToCache = [
-    '/PWA_design-onchange/index.html',
-    '/PWA_design-onchange/style.css',
-    '/PWA_design-onchange/main.js',
-    '/PWA_design-onchange/manifest.json',
-    '/PWA_design-onchange/cofficients.csv',
-    '/PWA_design-onchange/questions.csv',
-    '/PWA_design-onchange/tales.csv',
-    '/PWA_design-onchange/images'
+const CACHE_NAME = 'PWA_design - onchange';
+const urlsToCache = [
+    'index.html',
+    'style.css',
+    'main.js',
+    'manifest.json',
+    'coefficients.csv',
+    'questions.csv',
+    'tales.csv',
+    'images/1.jpg',
+    'images/2.jpg',
+    'images/3.jpg',
+    'images/4.jpg',
+    'images/5.jpg',
+    'images/6.jpg',
+    'images/7.jpg',
+    'images/8.jpg',
+    'images/9.jpg',
+    'images/10.jpg',
+    'images/11.jpg',
+    'images/12.jpg',
+    'images/bgimage.png',
+    'images/washi_bg.png',
+    'images/character.png',
+    'images/character_192.png',
+    'images/character_512.png',
 ];
 
 // インストール処理
@@ -21,7 +37,7 @@ self.addEventListener('install', function(event) {
     );
 });
 
-// リソースフェッチ時のキャッシュロード処理
+// キャッシュからレスポンスを返す
 self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches
@@ -31,3 +47,19 @@ self.addEventListener('fetch', function(event) {
             })
     );
 });
+
+// キャッシュのクリア
+self.addEventListener("activate", (e) => {
+    e.waitUntil(
+      caches.keys().then((keyList) => {
+        return Promise.all(
+          keyList.map((key) => {
+            if (key !== CACHE_NAME) {
+              return caches.delete(key);
+            }
+          }),
+        );
+      }),
+    );
+  });
+  
