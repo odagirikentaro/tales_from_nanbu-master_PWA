@@ -27,8 +27,6 @@ function coefReader() {
                     coefs[character][columnName] = value;
                 }
             }
-            // coefsオブジェクトにデータが格納される
-            //console.log(coefs);
         })
         .catch(error => {
             console.error('データを取得できませんでした: ', error);
@@ -110,6 +108,8 @@ Promise.all([coefReader(), queReader(), talesReader()])
         console.error('処理でエラーが発生しました: ', error);
     });
 
+//---------------------------------------------------------------
+
 
 const quiz = document.getElementById("qnumber");     //番号
 const quiztext = document.getElementById("qtext");   //質問文
@@ -119,10 +119,15 @@ const startbtn = document.querySelector(".startoption"); //始めるのハコ
 const option = document.querySelector(".option");    //オプションのハコ
 const next = document.getElementById("next"); //次へ　タイトル　ボタン
 const file_area = document.getElementById("file_area"); //結果画像エリア
-const explanationbox = document.querySelector(".explanationbtn"); //解説ボタン
+
+const synopsisbtn = document.querySelector(".synopsisbtn"); //あらすじボタン
 const back = document.getElementById("back");
-const taleTypebtn = document.querySelector(".taleTypebtn");
+const taleTypebtn = document.querySelector(".taleTypebtn"); //タイプボタン
 const taleType = document.getElementById("taleType");
+const featurebtn = document.querySelector(".featurebtn"); //特徴ボタン
+const feature = document.getElementById("feature");
+const resultBtn = document.querySelector(".resultBtn"); //あらすじ　タイプ　特徴
+
 const optionbox = document.querySelector(".optionbox");
 const showbtn = document.querySelector(".showbtn");
 
@@ -143,7 +148,8 @@ function startGame() {
 startGame();
 let cnt = 0;
 let Answers = {};
-//let i = 0;
+let resultSentence = {};
+let i = 0;
 //back.addEventListener('click', showExplanation());
 
 
@@ -191,12 +197,17 @@ function Return() {
 
     //結果画面から「もどる」を選択したとき
     if (cnt == 10) {
+
         next.innerHTML = "つぎへ";
         choice.classList.add("fadeIn");
         file_area.removeChild(file_area.firstElementChild); //追加された画像を消す
-        explanationbox.classList.remove("fadeIn");
         file_area.style.display = "block";
-        taleTypebtn.classList.remove("fadeIn");
+
+        //修正
+        resultBtn.classList.remove("fadeIn");
+        taleTypebtn.classList.remove("visible");
+        synopsisbtn.classList.remove("visible");
+        featurebtn.classList.remove("visible");
     }
 
 }
@@ -290,6 +301,7 @@ function getSelectedValue() {
             cnt++;
             let maxCharacter = caluculate();
             resultSet(maxCharacter);
+            i = 0; //リザルトの表示
             //back.addEventListener('click', {name:maxCharacter, handleEvent:showExplanation});
             console.log(cnt);
         }
@@ -367,16 +379,26 @@ function resultSet(maxCharacter) {
     let Rimage = "";
     let nanbuTales = "";
     let synopsis = "";
+    let features = "";
     for (const character of tales) {
         if (character["キャラクター"] === characterName) {
             explanation = character["解説"];
             Rimage = character["画像"];
             nanbuTales = character["昔ッコ"];
             synopsis = character["あらすじ"];
+            features = character["特徴"];
+            resultSentence = {
+                maxCharacter: maxCharacter,
+                explanation: explanation,
+                nanbuTales: nanbuTales,
+                synopsis: synopsis,
+                features: features
+            };
             break;
         }
     }
 
+    //画像のスペースを作る
     fetch(`images/${encodeURIComponent(Rimage)}`)
         .then(response => response.blob())
         .then(data => {
@@ -389,58 +411,127 @@ function resultSet(maxCharacter) {
 
         });
 
+    //～タイプを表示
     quiz.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
-    quiztext.innerHTML = explanation;
+    quiztext.innerHTML = explanation; //タイプの解説
     choice.classList.remove("fadeIn");
-    //explanationbox.classList.remove("fadeOut"); //解説ボタンを表示
-    explanationbox.classList.add("fadeIn");
+
+    //修正
+    resultBtn.classList.add("fadeIn");
+    featurebtn.classList.add("visible"); //特徴ボタンを表示
+    synopsisbtn.classList.add("visible"); //あらすじボタンを表示
     //nextbox.classList.add("fadeOut");
     next.innerHTML = "タイトルへ";
 
+    //「どんな話」を押したとき
     back.addEventListener('click', function () {
 
+        //昔話のカウント 
+        i = 1;
         quiz.innerHTML = nanbuTales;
         quiztext.innerHTML = synopsis;
-        explanationbox.classList.remove("fadeIn");
-        taleTypebtn.classList.add("fadeIn");
-
+        synopsisbtn.classList.remove("visible");
+        taleTypebtn.classList.add("visible"); //「どんなタイプ」
+        featurebtn.classList.add("visible"); //「どんなキャラ」
     }, false);
 
+    //「どんなキャラ」を押したとき
+    feature.addEventListener('click', function () {
+
+        //特徴のカウント 
+        i = 2;
+        quiz.innerHTML = maxCharacter;
+        quiztext.innerHTML = features;
+        featurebtn.classList.remove("visible");
+        taleTypebtn.classList.add("visible"); //「どんなタイプ」
+        synopsisbtn.classList.add("visible"); //「どんな話」
+    }, false);
+
+    //「どんなタイプ」を押したとき
     taleType.addEventListener('click', function () {
 
+        i = 0;
         quiz.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
         quiztext.innerHTML = explanation;
-        explanationbox.classList.add("fadeIn");
-        taleTypebtn.classList.remove("fadeIn");
-
-
+        taleTypebtn.classList.remove("visible");
+        synopsisbtn.classList.add("visible"); //「どんな話」
+        featurebtn.classList.add("visible"); //「どんなキャラ」
     }, false);
 }
 
 
+const Inquiry = {
+    quiz: "お問い合わせ",
+    text: "八戸市博物館　　〒039-1166<br>　　　　　　　　青森県八戸市大字根城字東構35-1<br>　　　　　　　　TEL：0178-44-8111<br>八戸工業大学　　"
+}
+
+const PP = {
+    quiz: "プライバシーポリシー",
+    text: "本アプリでは診断のために回答データを使用しています。<br>回答データはアプリを終了した場合とタイトルに戻った場合にリセットされています。<br>その他のデータは取得や保存はしていません。"
+}
 
 
-
-
-function showInquiry() {
-    quiz.innerHTML = "お問い合わせ";
-    quiztext.innerHTML = "0120";
+//お問い合わせ・プライバシーポリシーをおしたとき
+function showSentence(sentence) {
+    console.log(cnt);
+    console.log(resultSentence);
+    console.log(questions.length);
+    quiz.innerHTML = sentence.quiz;
+    quiztext.innerHTML = sentence.text;
     optionbox.classList.add("fadeOut"); //はじめる、もどる、次へ
     choice.classList.remove("fadeIn"); //はい～～
     showbtn.classList.add("fadeIn");
+
+    if (cnt == questions.length + 1) {
+        file_area.style.display = "none";
+        //修正
+        resultBtn.classList.remove("fadeIn");
+        /*
+        synopsisbtn.classList.remove("fadeIn");
+        taleTypebtn.classList.remove("fadeIn");
+        featurebtn.classList.remove("fadeIn");
+        */
+    }
+    //お問い合わせの「もどる」をクリック
     showbtn.addEventListener("click", () => {
         quiz.innerHTML = "南部昔ッコ診断";
         quiztext.innerHTML = "10コの簡単な質問に答えて、八戸地方の有名な昔話（昔ッコ）の登場人物との相性を診断してみましょう。";
         optionbox.classList.remove("fadeOut"); //はじめる、もどる、次へ
         showbtn.classList.remove("fadeIn");
-        if (cnt >= 1) {
+
+        if (cnt <= questions.length) {
             quiz.innerHTML = questions[cnt - 1].number;
             quiztext.innerHTML = questions[cnt - 1].text;
             choice.classList.add("fadeIn"); //はい～～
+        } else if (cnt == questions.length + 1 && i == 0) {
+            //解説の画面
+            console.log("解説");
+            quiz.innerHTML = "あなたは「" + resultSentence["maxCharacter"] + "」タイプ";
+            quiztext.innerHTML = resultSentence["explanation"]; //解説を表示
+            resultBtn.classList.add("fadeIn");
+            synopsisbtn.classList.add("visible");
+            featurebtn.classList.add("visible");
+            file_area.style.display = "block";
+        } else if (cnt == questions.length + 1 && i == 1) {
+            //昔話の画面
+            console.log("昔話");
+            quiz.innerHTML = resultSentence["nanbuTales"];
+            quiztext.innerHTML = resultSentence["synopsis"]; //あらすじを表示
+            resultBtn.classList.add("fadeIn");
+            taleTypebtn.classList.add("visible");
+            featurebtn.classList.add("visible");
+            file_area.style.display = "block";
+        } else if (cnt == questions.length + 1 && i == 2) {
+            //特徴の画面
+            console.log("特徴");
+            quiz.innerHTML = resultSentence["maxCharacter"];
+            quiztext.innerHTML = resultSentence["features"]; //特徴を表示
+            resultBtn.classList.add("fadeIn");
+            taleTypebtn.classList.add("visible");
+            synopsisbtn.classList.add("visible");
+            file_area.style.display = "block";
         }
     });
 }
 
-function showPP() {
-    console.log("プライバシーポリシー");
-}
+
