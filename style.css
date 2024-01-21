@@ -1,6 +1,5 @@
 body {
     background-image: url(images/washi_bg.png);
-    font-family: YuMincho, "Ms P 明朝", serif;
 }
 
 /* ナビバー */
@@ -9,19 +8,11 @@ div.container-fluid {
 }
 
 
-div.offcanvas {
-    background-image: url(images/washi_bg.png);
-}
-
-
 /* main */
-/*div.qqbox {
-    position: relative;
-}*/
 
 div.qbox {
     position: relative;
-    left: 50px;
+    /*left: 50px;*/
     width: 70%;
     background-image: url(images/bgimage.png);
     border-radius: 10px;
@@ -48,28 +39,39 @@ h1 {
 
 p {
     font-size: 30px;
-    text-align: center;
+    /*text-align: center;*/
 }
 
-div.explanationbtn {
-    justify-content: right;
-}
-
-/* はい　どちらともいえない　いいえ */
-div.choices {
+/* タイプ　特徴　話 */
+div.resultBtn {
     display: flex;
     justify-content: space-around;
 }
 
-/*button.btn-light {
-    width: 200px;
-    height: 50px;
-    margin: 10px;
-    border-width: 3px;
-    border-color: black;
-    border-style: solid;
-}*/
+/* タイプボタン */
+div.taleTypebtn {
+    justify-content: left;
+}
 
+/* 特徴ボタン */
+
+div.featurebtn {
+    justify-content: center;
+}
+
+
+/* 解説ボタン */
+div.explanationbtn {
+    justify-content: right;
+}
+
+
+
+/* はい　どちらともいえない　いいえ */
+div.choices {
+    display: flex;
+    justify-content: space-between;
+}
 
 div.charaimage img {
     position: absolute;
@@ -94,7 +96,7 @@ div.resultBox {
 /* もどる　次へ */
 div.optionbox {
     position: relative;
-    left: 50px;
+    /*left: 50px;*/
 }
 
 div.startoption {
@@ -107,14 +109,23 @@ div.option {
     justify-content: space-around;
 }
 
+div.showbtn {
+    display: flex;
+    justify-content: space-around;
+}
+
 button.btn-custom {
+    border-bottom: 5px solid rgba(0,0,0,0.5);
+    
     background-color: white;
     width: 200px;
     height: 50px;
     margin: 10px;
+    /*
     border-width: 2px;
-    border-color: black;
+    border-color: rgb(196, 35, 35);
     border-style: solid;
+    */
 }
 
 button.btn-custom:hover {
@@ -139,7 +150,44 @@ div.fadeIn {
     display: flex;
 }
 
-@media screen and (max-width:960px) {}
+div.hidden {
+    visibility: hidden;
+}
+
+div.visible {
+    visibility: visible;
+}
+
+.formbt input[type=radio] {
+    display: none;
+}
+
+.formbt input[type=radio]+label {
+    width: 200px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.formbt input[type=radio]:checked+label {
+    background-color: rgb(241, 243, 94);
+    border: 3px solid black;
+}
+
+
+/*
+.formbt input[type=radio]+label span::before {
+    content: "○";
+}
+
+.formbt input[type=radio]:checked+label span::before {
+    content: "●";
+    color: black;
+}
+*/
 
 
 /* レスポンシブ対応 */
@@ -182,25 +230,6 @@ div.fadeIn {
 
     }
 
-    div.choices {
-        /*display: flex;*/
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .formbt input[type=radio]+label{
-        width: 220px;
-        padding: 10px;
-        font-size: 20px;
-        background-color: white;
-        border: 3px solid black;
-        border-radius: 10px;
-        justify-content: center;
-        display: flex;
-        /*margin: 20px;*/
-    }  
-
     button.btn-light {
         width: 80%;
         height: 43px;
@@ -208,11 +237,6 @@ div.fadeIn {
     }
 
     div.charaimage img {
-        position: absolute;
-        left: -20%;
-        bottom: 10%;
-        width: 100px;
-        height: auto;
         display: none;
     }
 
@@ -230,35 +254,15 @@ div.fadeIn {
         border-color: black;
         border-style: solid;
     }
+
+    div.choices {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 
 
-.formbt input[type=radio]{
-    display: none;
-}  
 
-.formbt input[type=radio]+label{
-    width: 220px;
-    padding: 10px;
-    font-size: 20px;
-    background-color: white;
-    border: 3px solid black;
-    border-radius: 10px;
-    margin: 20px;
-}  
-
-.formbt input[type=radio]:checked+label{
-    background-color: rgb(241, 243, 94);
-    border: 3px solid black;
-} 
-
-.formbt input[type=radio]+label span::before{
-    content: "○";
-} 
-
-.formbt input[type=radio]:checked+label span::before{
-    content: "●";
-    color: black;
-} 
 
