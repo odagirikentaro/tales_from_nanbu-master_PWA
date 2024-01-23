@@ -179,7 +179,7 @@ label {
     white-space: nowrap;
 }
 
-/*
+
 .formbt input[type=radio]+label span::before {
     content: "○";
 }
@@ -188,7 +188,7 @@ label {
     content: "●";
     color: black;
 }
-*/
+
 
 /*リンク*/
 a {
