@@ -33,36 +33,17 @@ div.question {
 }
 
 h1 {
-    font-size: 30px;
+    /*font-size: 30px;*/
     text-align: left;
 }
 
-p {
-    font-size: 30px;
-    /*text-align: center;*/
-}
+
 
 /* タイプ　特徴　話 */
 div.resultBtn {
+    width: auto;
     display: flex;
     justify-content: space-around;
-}
-
-/* タイプボタン */
-div.taleTypebtn {
-    justify-content: left;
-}
-
-/* 特徴ボタン */
-
-div.featurebtn {
-    justify-content: center;
-}
-
-
-/* 解説ボタン */
-div.explanationbtn {
-    justify-content: right;
 }
 
 
@@ -115,17 +96,17 @@ div.showbtn {
 }
 
 button.btn-custom {
-    border-bottom: 5px solid rgba(0,0,0,0.5);
-    
+    /*border-bottom: 5px solid rgba(0,0,0,0.5);*/
+
     background-color: white;
+    font-size: auto;
     width: 200px;
-    height: 50px;
+    height: auto;
     margin: 10px;
-    /*
     border-width: 2px;
-    border-color: rgb(196, 35, 35);
+    border-color: rgb(0, 0, 0);
     border-style: solid;
-    */
+
 }
 
 button.btn-custom:hover {
@@ -136,6 +117,23 @@ button.btn-custom:active {
     /*background-color: black;*/
     opacity: 1;
 }
+
+button.resultbtn-custom {
+    /*border-bottom: 5px solid rgba(0,0,0,0.5);*/
+    white-space: nowrap;
+    background-color: white;
+    font-size: 60%;
+    width: auto;
+    height: auto;
+    margin: 10px;
+    border-width: 2px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+
+}
+
+
+
 
 /* フッター */
 div.footerbox {
@@ -177,6 +175,9 @@ div.visible {
     border: 3px solid black;
 }
 
+label {
+    white-space: nowrap;
+}
 
 /*
 .formbt input[type=radio]+label span::before {
@@ -188,6 +189,16 @@ div.visible {
     color: black;
 }
 */
+
+/*リンク*/
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 
 
 /* レスポンシブ対応 */
@@ -221,9 +232,6 @@ div.visible {
         margin: 10px auto 10px;
     }
 
-    p {
-        font-size: 25px;
-    }
 
     div.question {
         padding: 10px 30px 15px;
@@ -242,13 +250,12 @@ div.visible {
 
     div.optionbox {
         position: relative;
-        left: 0px;
     }
 
     button.btn-custom {
         background-color: white;
-        width: 200px;
-        height: 43px;
+        width: 90%;
+        height: auto;
         margin: 10px;
         border-width: 2px;
         border-color: black;
@@ -260,9 +267,21 @@ div.visible {
         flex-direction: column;
         align-items: center;
     }
+
+    .formbt input[type=radio]+label {
+        width: 90%;
+        height: auto;
+    }
+
+    img {
+        width: 10%;
+        height: auto;
+    }
+
+    div.resultBox {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
 }
-
-
-
-
-
