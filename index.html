@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <link rel=”shortcuticon” href=“/favicon.ico”>
-  <title>診断画面</title>
+  <title>南部昔ッコ診断</title>
   <meta name="description" content="ディスクリプションを入力">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,7 +24,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <!-- <a class="nav-link" href="javascript:showSentence(Inquiry);">お問い合わせ</a> -->
             <a class="nav-link" href="javascript:showSentence(PP);">プライバシーポリシー</a>
           </div>
         </div>
@@ -46,19 +45,19 @@
           <p class="fs-3" id="qtext">10コの簡単な質問に答えて、八戸地方の有名な昔話
             （昔ッコ）の登場人物との相性を診断してみましょう。</p>
         </div>
-        <div class="resultBtn fadeOut">
-          <div class="taleTypebtn hidden">
-            <button type="button" class="btn resultbtn-custom" id="taleType">どんなタイプ？</button>
-          </div>
-          <div class="featurebtn hidden">
-            <button type="button" class="btn resultbtn-custom" id="feature">どんなキャラ？</button>
-          </div>
-          <div class="synopsisbtn hidden">
-            <button type="button" class="btn resultbtn-custom" id="back">どんな話？</button>
-          </div>
-        </div>
       </div>
 
+      <div class="resultBtn fadeOut">
+        <div class="taleTypebtn hidden">
+          <button type="button" class="btn resultbtn-custom resultFontSize" id="taleType">どんなタイプ？</button>
+        </div>
+        <div class="featurebtn hidden">
+          <button type="button" class="btn resultbtn-custom" id="feature">どんなキャラ？</button>
+        </div>
+        <div class="synopsisbtn hidden">
+          <button type="button" class="btn resultbtn-custom" id="back">どんな話？</button>
+        </div>
+      </div>
 
       <form method="post" action="#" class="formbt" id="myForm">
         <div class="choices fadeOut">
@@ -90,7 +89,8 @@
   <footer>
     <div class="footerbox">
       <footer class="py-3 my-4">
-        <p class="text-center text-body-secondary fs-5"><a href="https://hachinohe-city-museum.jp/">八戸市博物館</a> | <a href="https://www.hi-tech.ac.jp/">八戸工業大学</a></p>
+        <p class="text-center text-body-secondary fs-5"><a href="https://hachinohe-city-museum.jp/">八戸市博物館</a> | <a
+            href="https://www.hi-tech.ac.jp/">八戸工業大学</a></p>
       </footer>
     </div>
   </footer>
