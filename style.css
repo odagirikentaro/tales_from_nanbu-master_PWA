@@ -58,7 +58,7 @@ div.choices {
 
 div.charaimage img {
     position: absolute;
-    /*left: -20%;*/
+    left: -17%;
     width: 17%;
     height: auto;
     /*background-position: 20% 20%;*/
@@ -219,7 +219,6 @@ a:hover {
 @media screen and (max-width:1280px) {
     div.charaimage img {
         position: absolute;
-        left: -17%;
         /*width: 190px;*/
         width: 20%;
         height: auto;
@@ -229,7 +228,6 @@ a:hover {
 @media screen and (max-width:960px) {
     div.charaimage img {
         position: absolute;
-        left: -17%;
         /*width: 170px;*/
         width: 20%;
         height: auto;
