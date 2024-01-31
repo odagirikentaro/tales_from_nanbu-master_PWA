@@ -35,8 +35,6 @@ function coefReader() {
 }
 
 
-
-
 //csv読み込み
 const questions = queReader();
 function queReader() {
@@ -46,10 +44,10 @@ function queReader() {
         .then(data => {
             const lines = data.split('\n');
             for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',');
-                //const number = parseInt(values[0]); // 数値に変換
-                const number = values[0];
-                const text = values[1];
+                let values = lines[i].split(',');
+                //let number = parseInt(values[0]); // 数値に変換
+                let number = values[0];
+                let text = values[1];
 
                 // データをオブジェクトとして配列に追加
                 questions.push({ "number": number, "text": text });
@@ -93,7 +91,6 @@ function talesReader() {
 function btnLoad() {
     //const startbtn = document.querySelector(".startoption");
     startbtn.classList.add("fadeIn");
-    console.log("スタートボタン表示");
 }
 
 //3つの処理が終わってからスタートボタン表示
@@ -106,15 +103,18 @@ Promise.all([coefReader(), queReader(), talesReader()])
     })
     .catch(error => {
         console.error('処理でエラーが発生しました: ', error);
+        alert('処理でエラーが発生しました');
     });
 
 //---------------------------------------------------------------
 
 
-const quiz = document.getElementById("qnumber");     //番号
-const quiztext = document.getElementById("qtext");   //質問文
+const qnumber = document.getElementById("qnumber");     //番号
+const qtext = document.getElementById("qtext");   //質問文
+
 const choice = document.querySelector(".choices");   //3つの選択肢
 const nextbox = document.querySelector(".nextbox");  //次へのハコ
+
 const startbtn = document.querySelector(".startoption"); //始めるのハコ
 const option = document.querySelector(".option");    //オプションのハコ
 const next = document.getElementById("next"); //次へ　タイトル　ボタン
@@ -139,7 +139,7 @@ function startGame() {
         option.classList.add("fadeIn");
         startbtn.classList.remove("fadeIn");
         cnt++;
-        Set(0);
+        SetText(0);
         console.log("カウントは" + cnt);
     });
 }
@@ -147,15 +147,15 @@ function startGame() {
 //スタート動作
 startGame();
 let cnt = 0;
-let Answers = {};
-let resultSentence = {};
-let i = 0;
+let Answers = {};         //回答内容
+let resultSentence = {};  //結果画面で表示されるキャラクターに関するテキスト
+let i = 0;                //結果画面の状態
 //back.addEventListener('click', showExplanation());
 
 
-function Set(cnt) {
-    quiz.innerHTML = questions[cnt].number;
-    quiztext.innerHTML = questions[cnt].text;
+function SetText(cnt) {
+    qnumber.innerHTML = questions[cnt].number;
+    qtext.innerHTML = questions[cnt].text;
 }
 
 //もどる
@@ -163,26 +163,29 @@ function Return() {
 
 
     //再読み込み
-    if (cnt == 1) {
+    if (cnt === 1) {
         location.reload();
     }
 
 
     cnt = cnt - 1;
-    Set(cnt - 1);
+    SetText(cnt - 1);
     //alert(cnt);
 
 
     //const jsonObject = JSON.parse(serializedArray);
     //let myScore = localStorage.getItem("score");
     //let aaa = localStorage.saveKey;
-    let myScor = localStorage.getItem("score");
-    let Answers = JSON.parse(myScor);
+
+    
+    let myScore = localStorage.getItem("score");
+    let Answers = JSON.parse(myScore);
+    
+    
     console.log(Answers["問" + cnt + ""]);
     const val2choice = { "1": "yes", "0": "neither", "-1": "no" };
     let choice2 = val2choice[Answers["問" + cnt + ""]]; //yesかnoかneither
     console.log(choice2);
-
 
 
     let form = document.getElementById(choice2); //選択を再現
@@ -190,13 +193,16 @@ function Return() {
 
 
     delete Answers["問" + cnt + ""];
+    
     let serializedArray = JSON.stringify(Answers);
     localStorage.setItem("score", serializedArray);
+    
+
     console.log(Answers);
     console.log("カウントは" + cnt);
 
     //結果画面から「もどる」を選択したとき
-    if (cnt == 10) {
+    if (cnt === 10) {
 
         next.innerHTML = "つぎへ";
         choice.classList.add("fadeIn");
@@ -212,10 +218,6 @@ function Return() {
 
 }
 
-//ラジオボタンクリックしたときの～～
-/*document.querySelector('input[type="submit"]').addEventListener('click', function (event) {
-    event.preventDefault();
-});*/
 
 
 function checkForm() {
@@ -232,7 +234,7 @@ function checkForm() {
 }
 
 
-//フォーム取得
+//「つぎへ」を押したときフォーム取得
 function getSelectedValue() {
 
 
@@ -264,11 +266,14 @@ function getSelectedValue() {
         Answers["問" + cnt] = selectedValue;
 
 
+        
         let serializedArray = JSON.stringify(Answers);
         localStorage.setItem("score", serializedArray);
         let myScore = localStorage.getItem("score");
         console.log(myScore);
+        
         console.log(Answers["問" + cnt + ""]);
+        console.log(Answers);
 
         //alert("選択した値は: " + myScore);
 
@@ -276,7 +281,7 @@ function getSelectedValue() {
 
         //問題を変える　
         if (cnt < questions.length) {
-            Set(cnt);
+            SetText(cnt);
             cnt++;
             console.log("カウントは" + cnt);
 
@@ -295,9 +300,10 @@ function getSelectedValue() {
             }
 
         } else if (cnt == questions.length + 1) {
-
+            //結果画面で「つぎへ」ボタン（タイトルへ）を押すと再読み込み
             location.reload();
         } else {
+            //10問目で「つぎへ」を押すと結果表示
             cnt++;
             let maxCharacter = caluculate();
             resultSet(maxCharacter);
@@ -364,7 +370,7 @@ function caluculate() {
     let maxCharacter = randomResult[Math.floor(Math.random() * randomResult.length)];
 
     alert(maxCharacter);
-    //quiz.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
+    //qnumber.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
     //resultSet(maxCharacter); // キャラクターの解説
     return maxCharacter;
 }
@@ -412,8 +418,8 @@ function resultSet(maxCharacter) {
         });
 
     //～タイプを表示
-    quiz.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
-    quiztext.innerHTML = explanation; //タイプの解説
+    qnumber.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
+    qtext.innerHTML = explanation; //タイプの解説
     choice.classList.remove("fadeIn");
 
     //修正
@@ -428,8 +434,8 @@ function resultSet(maxCharacter) {
 
         //昔話のカウント 
         i = 1;
-        quiz.innerHTML = nanbuTales;
-        quiztext.innerHTML = synopsis;
+        qnumber.innerHTML = nanbuTales;
+        qtext.innerHTML = synopsis;
         synopsisbtn.classList.remove("visible");
         taleTypebtn.classList.add("visible"); //「どんなタイプ」
         featurebtn.classList.add("visible"); //「どんなキャラ」
@@ -440,8 +446,8 @@ function resultSet(maxCharacter) {
 
         //特徴のカウント 
         i = 2;
-        quiz.innerHTML = maxCharacter;
-        quiztext.innerHTML = features;
+        qnumber.innerHTML = maxCharacter;
+        qtext.innerHTML = features;
         featurebtn.classList.remove("visible");
         taleTypebtn.classList.add("visible"); //「どんなタイプ」
         synopsisbtn.classList.add("visible"); //「どんな話」
@@ -451,33 +457,34 @@ function resultSet(maxCharacter) {
     taleType.addEventListener('click', function () {
 
         i = 0;
-        quiz.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
-        quiztext.innerHTML = explanation;
+        qnumber.innerHTML = "あなたは「" + maxCharacter + "」タイプ";
+        qtext.innerHTML = explanation;
         taleTypebtn.classList.remove("visible");
         synopsisbtn.classList.add("visible"); //「どんな話」
         featurebtn.classList.add("visible"); //「どんなキャラ」
     }, false);
 }
 
-
+/*
 const Inquiry = {
-    quiz: "お問い合わせ",
-    text: "八戸市博物館　　〒039-1166<br>　　　　　　　　青森県八戸市大字根城字東構35-1<br>　　　　　　　　TEL：0178-44-8111<br>八戸工業大学　　"
+    qnumber: "お問い合わせ",
+    text: "<a href="https://creatorquest.jp/">CreatorQuest</a>へ"
 }
+*/
 
 const PP = {
-    quiz: "プライバシーポリシー",
+    number: "プライバシーポリシー",
     text: "本アプリでは診断のために回答データを使用しています。<br>回答データはアプリを終了した場合とタイトルに戻った場合にリセットされています。<br>その他のデータは取得や保存はしていません。"
 }
 
 
-//お問い合わせ・プライバシーポリシーをおしたとき
+//プライバシーポリシーをおしたとき
 function showSentence(sentence) {
     console.log(cnt);
     console.log(resultSentence);
     console.log(questions.length);
-    quiz.innerHTML = sentence.quiz;
-    quiztext.innerHTML = sentence.text;
+    qnumber.innerHTML = sentence.number;
+    qtext.innerHTML = sentence.text;
     optionbox.classList.add("fadeOut"); //はじめる、もどる、次へ
     choice.classList.remove("fadeIn"); //はい～～
     showbtn.classList.add("fadeIn");
@@ -494,20 +501,20 @@ function showSentence(sentence) {
     }
     //お問い合わせの「もどる」をクリック
     showbtn.addEventListener("click", () => {
-        quiz.innerHTML = "南部昔ッコ診断";
-        quiztext.innerHTML = "10コの簡単な質問に答えて、八戸地方の有名な昔話（昔ッコ）の登場人物との相性を診断してみましょう。";
+        qnumber.innerHTML = "南部昔ッコ診断";
+        qtext.innerHTML = "10コの簡単な質問に答えて、八戸地方の有名な昔話（昔ッコ）の登場人物との相性を診断してみましょう。";
         optionbox.classList.remove("fadeOut"); //はじめる、もどる、次へ
         showbtn.classList.remove("fadeIn");
 
         if (cnt <= questions.length) {
-            quiz.innerHTML = questions[cnt - 1].number;
-            quiztext.innerHTML = questions[cnt - 1].text;
+            qnumber.innerHTML = questions[cnt - 1].number;
+            qtext.innerHTML = questions[cnt - 1].text;
             choice.classList.add("fadeIn"); //はい～～
         } else if (cnt == questions.length + 1 && i == 0) {
             //解説の画面
             console.log("解説");
-            quiz.innerHTML = "あなたは「" + resultSentence["maxCharacter"] + "」タイプ";
-            quiztext.innerHTML = resultSentence["explanation"]; //解説を表示
+            qnumber.innerHTML = "あなたは「" + resultSentence["maxCharacter"] + "」タイプ";
+            qtext.innerHTML = resultSentence["explanation"]; //解説を表示
             resultBtn.classList.add("fadeIn");
             synopsisbtn.classList.add("visible");
             featurebtn.classList.add("visible");
@@ -515,8 +522,8 @@ function showSentence(sentence) {
         } else if (cnt == questions.length + 1 && i == 1) {
             //昔話の画面
             console.log("昔話");
-            quiz.innerHTML = resultSentence["nanbuTales"];
-            quiztext.innerHTML = resultSentence["synopsis"]; //あらすじを表示
+            qnumber.innerHTML = resultSentence["nanbuTales"];
+            qtext.innerHTML = resultSentence["synopsis"]; //あらすじを表示
             resultBtn.classList.add("fadeIn");
             taleTypebtn.classList.add("visible");
             featurebtn.classList.add("visible");
@@ -524,8 +531,8 @@ function showSentence(sentence) {
         } else if (cnt == questions.length + 1 && i == 2) {
             //特徴の画面
             console.log("特徴");
-            quiz.innerHTML = resultSentence["maxCharacter"];
-            quiztext.innerHTML = resultSentence["features"]; //特徴を表示
+            qnumber.innerHTML = resultSentence["maxCharacter"];
+            qtext.innerHTML = resultSentence["features"]; //特徴を表示
             resultBtn.classList.add("fadeIn");
             taleTypebtn.classList.add("visible");
             synopsisbtn.classList.add("visible");
