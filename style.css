@@ -305,3 +305,9 @@ a:hover {
         font-size: 55%;
     }
 }
+
+@media screen and (max-width:400px) {
+    button.resultbtn-custom {
+        font-size: 40%;
+    }
+}
